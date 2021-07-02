@@ -3,7 +3,6 @@ package com.github.shnewto.assertlike.types;
 import org.apache.avro.util.Utf8;
 import org.junit.jupiter.api.Test;
 
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +14,21 @@ import static org.hamcrest.Matchers.*;
 
 class TypeATest {
 
-    @Test
+    @Test // WILL SUCCEED!
+    void assertEqualityOfAJavaStringMapAndAJavaStringMap() {
+        String key = "16661";
+        String value = "palindromic beastly prime";
+
+        Map<CharSequence, CharSequence> actuallyStringMapA = new HashMap<>();
+        actuallyStringMapA.put(key, value);
+
+        Map<CharSequence, CharSequence> actuallyStringMapB = new HashMap<>();
+        actuallyStringMapB.put(key, value);
+
+        assertThat(actuallyStringMapA, is(equalTo(actuallyStringMapB)));
+    }
+
+    @Test // EXPECTED TO FAIL!
     void assertEqualityOfAnInternalJavaStringAndAnInternalAvroUtf8CharSequence() {
         // The smallest palindromic beastly prime
         Integer integerVal = 16661;
@@ -50,7 +63,33 @@ class TypeATest {
         assertThat(typeAWithAvroCharSequence, is(equalTo(typeAWithJavaStringCharSequence)));
     }
 
-    @Test
+    @Test // EXPECTED TO FAIL!
+    void assertEqualityOfAJavaStringMapAndAnAvroUtf8CharSequenceMap() {
+        Map<CharSequence, CharSequence> actuallyUtf8Map = new HashMap<>();
+        actuallyUtf8Map.put("a", "0");
+        actuallyUtf8Map.put("b", "1");
+        actuallyUtf8Map.put("c", "2");
+        actuallyUtf8Map.put("d", "3");
+
+        Map<CharSequence, CharSequence> actuallyStringMap = new HashMap<>();
+        actuallyStringMap.put("a", "0");
+        actuallyStringMap.put("b", "1");
+        actuallyStringMap.put("c", "2");
+        actuallyStringMap.put("d", "3");
+
+        assertThat(actuallyUtf8Map, is(equalTo(actuallyStringMap)));
+    }
+
+    @Test // EXPECTED TO FAIL!
+    void assertEqualityOfAJavaStringAndAnAvroUtf8() {
+        String stringValue = "palindromic beastly prime";
+        CharSequence charSequenceUtf8 = new Utf8(stringValue);
+        CharSequence charSequenceString = stringValue;
+
+        assertThat(charSequenceUtf8, is(equalTo(charSequenceString)));
+    }
+
+    @Test // WILL SUCCEED!
     void assertCustomEqualityOfAnInternalJavaStringAndAnInternalAvroUtf8CharSequence() {
         // The smallest palindromic beastly prime
         Integer integerVal = 16661;
@@ -85,8 +124,8 @@ class TypeATest {
         assertThat(typeAWithAvroCharSequence, is(typeAEq(typeAWithJavaStringCharSequence)));
     }
 
-    @Test
-    void assertEqualityOfAJavaStringMapAndAnAvroUtf8CharSequenceMap() {
+    @Test // WILL SUCCEED!
+    void assertCustomEqualityOfAJavaStringMapAndAnAvroUtf8CharSequenceMap() {
         Map<CharSequence, CharSequence> actuallyUtf8Map = new HashMap<>();
         actuallyUtf8Map.put("a", "0");
         actuallyUtf8Map.put("b", "1");
@@ -102,30 +141,7 @@ class TypeATest {
         assertThat(actuallyUtf8Map, is(charSequenceMapEq(actuallyStringMap)));
     }
 
-    @Test
-    void assertEqualityOfAJavaStringMapAndAJavaStringMap() {
-        String key = "16661";
-        String value = "palindromic beastly prime";
-
-        Map<CharSequence, CharSequence> actuallyStringMapA = new HashMap<>();
-        actuallyStringMapA.put(key, value);
-
-        Map<CharSequence, CharSequence> actuallyStringMapB = new HashMap<>();
-        actuallyStringMapB.put(key, value);
-
-        assertThat(actuallyStringMapA, is(equalTo(actuallyStringMapB)));
-    }
-
-    @Test
-    void assertEqualityOfAJavaStringAndAnAvroUtf8() {
-        String stringValue = "palindromic beastly prime";
-        CharSequence charSequenceUtf8 = new Utf8(stringValue);
-        CharSequence charSequenceString = stringValue;
-
-        assertThat(charSequenceUtf8, is(equalTo(charSequenceString)));
-    }
-
-    @Test
+    @Test // WILL SUCCEED!
     void assertCustomEqualityOfAJavaStringAndAnAvroUtf8() {
         String stringValue = "palindromic beastly prime";
         CharSequence charSequenceUtf8 = new Utf8(stringValue);

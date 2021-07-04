@@ -3,12 +3,12 @@
  */
 package com.github.shnewto.assertlike;
 
-public class App {
+public class AssertlikeApp {
     public String getGreeting() {
         return "Hello Assertlike User \uD83D\uDC4B";
     }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        System.out.println(new AssertlikeApp().getGreeting());
     }
 }

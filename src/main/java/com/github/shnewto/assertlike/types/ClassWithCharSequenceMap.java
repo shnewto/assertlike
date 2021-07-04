@@ -13,9 +13,6 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class TypeA {
-    public Integer integerVal;
-    public Utf8 utf8Val;
-    public String stringVal;
+public class ClassWithCharSequenceMap {
     public Map<CharSequence, CharSequence> charSequenceMap;
 }
